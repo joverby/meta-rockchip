@@ -3,13 +3,15 @@
 # Released under the GNU GENERAL PUBLIC LICENSE Version 2
 # (see COPYING.GPLv2 for the terms)
 
-LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://inc/rk_mpi.h;beginline=4;endline=14;md5=acbba394ae5639b0c786f60c1f48e3d6"
+LICENSE = "Apache-2.0 & MIT"
+LIC_FILES_CHKSUM = " \
+	file://LICENSES/Apache-2.0;md5=7f43e699e0a26fae98c2938092f008d2 \
+	file://LICENSES/MIT;md5=e8f57dd048e186199433be2c41bd3d6d"
 
-inherit freeze-rev local-git
+inherit local-git
 
-SRCREV = "c145c846324c41ff867c04c1d85893163375db6a"
-SRC_URI = "git://github.com/JeffyCN/mirrors.git;protocol=https;nobranch=1;branch=mpp-dev-2023_02_14;"
+SRCREV = "b29e4b798d28a5d0709bff87479d17f247645bc8"
+SRC_URI = "git://github.com/JeffyCN/mirrors.git;protocol=https;nobranch=1;branch=mpp-dev-2024_06_27;"
 
 S = "${WORKDIR}/git"
 

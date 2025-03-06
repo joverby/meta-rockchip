@@ -1,7 +1,7 @@
 # Copyright (C) 2021, Rockchip Electronics Co., Ltd
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-python () {
+do_fetch:prepend () {
     from bb.fetch2 import git
     from bb.fetch2 import Fetch
     from bb.fetch2 import runfetchcmd
@@ -25,7 +25,7 @@ python () {
         repourl = git._get_repo_url(ud)
 
         # Try an early full fetching
-        fetch_cmd = "LANG=C %s fetch %s" % (ud.basecmd, shlex.quote(repourl))
+        fetch_cmd = "LANG=C %s fetch --unshallow %s" % (ud.basecmd, shlex.quote(repourl))
         try:
             runfetchcmd(fetch_cmd, d, workdir=ud.clonedir)
         except bb.fetch2.FetchError:

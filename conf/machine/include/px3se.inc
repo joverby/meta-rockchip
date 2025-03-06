@@ -1,9 +1,11 @@
 # Copyright (c) 2019, Fuzhou Rockchip Electronics Co., Ltd
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-SOC_FAMILY ?= "px3se"
 require conf/machine/include/arm/armv7a/tune-cortexa7.inc
 require conf/machine/include/rockchip-common.inc
+require conf/machine/include/mali.inc
+
+RK_SOC_FAMILY := "px3se"
 
 MALI_GPU := "utgard-400"
 MALI_VERSION := "r7p0"

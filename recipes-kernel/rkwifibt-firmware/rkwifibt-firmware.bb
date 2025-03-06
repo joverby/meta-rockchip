@@ -7,11 +7,12 @@ SECTION = "kernel"
 LICENSE = "LICENSE.rockchip"
 LIC_FILES_CHKSUM = "file://${RKBASE}/licenses/LICENSE.rockchip;md5=d63890e209bf038f44e708bbb13e4ed9"
 
-inherit freeze-rev local-git
+inherit local-git
 
 
-#SRCREV = "54d05e00e73a91c14c86005e86fff45fa094203e"
-SRCREV = "84cbc6e057d643c89334bb135a1af6f26adf61bb"
+#SRCREV = "84cbc6e057d643c89334bb135a1af6f26adf61bb"
+SRCREV = "f4b13f7af66eaa023f942150fb3b1c6e79ddb90e"
+
 SRC_URI = "git://github.com/JeffyCN/mirrors.git;protocol=https;branch=rkwifibt;"
 
 S = "${WORKDIR}/git"
@@ -19,10 +20,17 @@ S = "${WORKDIR}/git"
 inherit allarch deploy
 
 do_install() {
-	install -d ${D}/lib/firmware/rtlbt/
+	install -d ${D}/${nonarch_base_libdir}/firmware/rtlbt/
 
-	cp -u $(find ${S}/firmware/ -type f) ${D}/lib/firmware/
-	ln -rsf ${D}/lib/firmware/*rtl*_* ${D}/lib/firmware/rtlbt/
+	cp -u $(find ${S}/firmware/ -type f) \
+		${D}/${nonarch_base_libdir}/firmware/
+	ln -rsf ${D}/${nonarch_base_libdir}/firmware/*rtl*_* \
+		${D}/${nonarch_base_libdir}/firmware/rtlbt/
+
+	if [ -r ${nonarch_base_libdir}/firmware/nvram_ap6275p.txt ]; then
+		ln -sf nvram_ap6275p.txt \
+			${nonarch_base_libdir}/firmware/nvram_AP6275P.txt
+	fi
 }
 
 PACKAGES =+ " \
@@ -48,36 +56,36 @@ PACKAGES =+ " \
 "
 
 FILES:${PN}-ap6181-wifi = " \
-	lib/firmware/fw_bcm40181a2_apsta.bin \
-	lib/firmware/fw_bcm40181a2.bin \
-	lib/firmware/nvram_ap6181.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm40181a2_apsta.bin \
+	${nonarch_base_libdir}/firmware/fw_bcm40181a2.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6181.txt \
 "
 
 FILES:${PN}-ap6212a1-wifi = " \
-	lib/firmware/fw_bcm43438a1_apsta.bin \
-	lib/firmware/fw_bcm43438a1.bin \
-	lib/firmware/nvram_ap6212a.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm43438a1_apsta.bin \
+	${nonarch_base_libdir}/firmware/fw_bcm43438a1.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6212a.txt \
 "
 FILES:${PN}-ap6212a1-bt = " \
-	lib/firmware/BCM43430A1.hcd \
+	${nonarch_base_libdir}/firmware/BCM4343A1.hcd \
 "
 
 FILES:${PN}-ap6236-wifi = " \
-	lib/firmware/fw_bcm43436b0_apsta.bin \
-	lib/firmware/fw_bcm43436b0.bin \
-	lib/firmware/nvram_ap6236.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm43436b0_apsta.bin \
+	${nonarch_base_libdir}/firmware/fw_bcm43436b0.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6236.txt \
 "
 FILES:${PN}-ap6236-bt = " \
-	lib/firmware/BCM43430B0.hcd \
+	${nonarch_base_libdir}/firmware/BCM43430B0.hcd \
 "
 
 FILES:${PN}-ap6255-wifi = " \
-	lib/firmware/fw_bcm43455c0_ag.bin \
-	lib/firmware/nvram_ap6255.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm43455c0_ag.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6255.txt \
 "
 FILES:${PN}-ap6255-bt = " \
-	lib/firmware/BCM4345C0_ap.hcd \
-	lib/firmware/BCM4345C0.hcd \
+	${nonarch_base_libdir}/firmware/BCM4345C0_ap.hcd \
+	${nonarch_base_libdir}/firmware/BCM4345C0.hcd \
 "
 
 FILES:${PN}-ap6256-wifi = " \
@@ -90,52 +98,53 @@ FILES:${PN}-ap6256-bt = " \
 "
 
 FILES:${PN}-ap6275p-wifi = " \
-	lib/firmware/fw_bcm43752a2_pcie_ag_apsta.bin \
-	lib/firmware/fw_bcm43752a2_pcie_ag_mfg.bin \
-	lib/firmware/clm_bcm43752a2_pcie_ag.blob \
-	lib/firmware/fw_bcm43752a2_pcie_ag.bin \
-	lib/firmware/nvram_AP6275P.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm43752a2_pcie_ag_apsta.bin \
+	${nonarch_base_libdir}/firmware/fw_bcm43752a2_pcie_ag_mfg.bin \
+	${nonarch_base_libdir}/firmware/clm_bcm43752a2_pcie_ag.blob \
+	${nonarch_base_libdir}/firmware/fw_bcm43752a2_pcie_ag.bin \
+	${nonarch_base_libdir}/firmware/nvram_AP6275P.txt \
+	${nonarch_base_libdir}/firmware/nvram_ap6275p.txt \
 "
 FILES:${PN}-ap6275s-wifi = " \
-	lib/firmware/fw_bcm43752a2_ag_apsta.bin \
-	lib/firmware/fw_bcm43752a2_ag_mfg.bin \
-	lib/firmware/clm_bcm43752a2_ag.blob \
-	lib/firmware/fw_bcm43752a2_ag.bin \
-	lib/firmware/nvram_ap6275s.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm43752a2_ag_apsta.bin \
+	${nonarch_base_libdir}/firmware/fw_bcm43752a2_ag_mfg.bin \
+	${nonarch_base_libdir}/firmware/clm_bcm43752a2_ag.blob \
+	${nonarch_base_libdir}/firmware/fw_bcm43752a2_ag.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6275s.txt \
 "
 FILES:${PN}-ap6275-bt = " \
-	lib/firmware/BCM4362A2.hcd \
+	${nonarch_base_libdir}/firmware/BCM4362A2.hcd \
 "
 
 FILES:${PN}-ap6354-wifi = " \
-	lib/firmware/fw_bcm4354a1_ag.bin \
-	lib/firmware/nvram_ap6354.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm4354a1_ag.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6354.txt \
 "
 FILES:${PN}-ap6354-bt = " \
-	lib/firmware/BCM4350C0.hcd \
+	${nonarch_base_libdir}/firmware/BCM4350C0.hcd \
 "
 
 FILES:${PN}-ap6356-wifi = " \
-	lib/firmware/fw_bcm4356a2_ag.bin \
-	lib/firmware/nvram_ap6356.txt \
-	lib/firmware/nvram_ap6356s.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm4356a2_ag.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6356.txt \
+	${nonarch_base_libdir}/firmware/nvram_ap6356s.txt \
 "
 FILES:${PN}-ap6356-bt = " \
-	lib/firmware/BCM4354A2.hcd \
+	${nonarch_base_libdir}/firmware/BCM4354A2.hcd \
 "
 
 FILES:${PN}-ap6398s-wifi = " \
-	lib/firmware/fw_bcm4359c0_ag.bin \
-	lib/firmware/fw_bcm4359c0_ag_mfg.bin \
-	lib/firmware/nvram_ap6398s.txt \
+	${nonarch_base_libdir}/firmware/fw_bcm4359c0_ag.bin \
+	${nonarch_base_libdir}/firmware/fw_bcm4359c0_ag_mfg.bin \
+	${nonarch_base_libdir}/firmware/nvram_ap6398s.txt \
 "
 FILES:${PN}-ap6398s-bt = " \
-	lib/firmware/BCM4359C0.hcd \
+	${nonarch_base_libdir}/firmware/BCM4359C0.hcd \
 "
 
 FILES:${PN}-rtl8723ds-bt = " \
-	lib/firmware/rtlbt/rtl8723d_config \
-	lib/firmware/rtlbt/rtl8723d_fw \
+	${nonarch_base_libdir}/firmware/rtlbt/rtl8723d_config \
+	${nonarch_base_libdir}/firmware/rtlbt/rtl8723d_fw \
 "
 
 FILES:${PN} = "*"

@@ -7,12 +7,12 @@ SECTION = "libs"
 LICENSE = "CLOSED"
 LIC_FILES_CHKSUM = "file://END_USER_LICENCE_AGREEMENT.txt;md5=3918cc9836ad038c5a090a0280233eea"
 
-inherit freeze-rev local-git
+inherit local-git
 
 SRC_URI = " \
 	git://github.com/JeffyCN/mirrors.git;protocol=https;branch=libmali; \
 "
-SRCREV = "309268f7a34ca0bba0ab94a0b09feb0191c77fb8"
+SRCREV = "af1d910cd29d52e354f6679e46d1bf2bbc7ca476"
 S = "${WORKDIR}/git"
 
 DEPENDS = "coreutils-native libdrm"
@@ -71,6 +71,8 @@ EXTRA_OEMESON = " \
 	-Dversion=${MALI_VERSION} \
 	-Dsubversion=${MALI_SUBVERSION} \
 	-Dplatform=${MALI_PLATFORM} \
+	-Dfirmware-dir=${nonarch_base_libdir}/firmware \
+	-Dwayland-egl=false \
 "
 
 do_install:append () {
@@ -81,7 +83,7 @@ do_install:append () {
 	fi
 }
 
-INSANE_SKIP:${PN} = "already-stripped ldflags dev-so textrel"
+INSANE_SKIP:${PN} = "already-stripped ldflags dev-so textrel buildpaths"
 INSANE_SKIP:${PN}-dev = "staticdev"
 
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"

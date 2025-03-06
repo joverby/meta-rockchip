@@ -1,9 +1,11 @@
 # Copyright (c) 2019, Fuzhou Rockchip Electronics Co., Ltd
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-SOC_FAMILY ?= "rk3288"
 require conf/machine/include/arm/armv7a/tune-cortexa17.inc
 require conf/machine/include/rockchip-common.inc
+require conf/machine/include/mali.inc
+
+RK_SOC_FAMILY := "rk3288"
 
 MALI_GPU := "midgard-t76x"
 MALI_VERSION := "r18p0"

@@ -1,7 +1,7 @@
 # Copyright (C) 2019, Fuzhou Rockchip Electronics Co., Ltd
 # Released under the MIT license (see COPYING.MIT for the terms)
 
-inherit freeze-rev local-git deploy native
+inherit local-git deploy native
 
 DESCRIPTION = "Rockchip binary tools"
 
@@ -12,7 +12,7 @@ SRC_URI = " \
 	git://github.com/JeffyCN/mirrors.git;protocol=https;branch=tools;name=tools;destsuffix=git/extra \
 "
 
-SRCREV_rkbin = "3712dbc00e806ec1ed240b4a1a04df210dd3b550"
+SRCREV_rkbin = "c41b714cacd249e3ef69b2bbe774da5095eefd72"
 SRCREV_tools = "1a32bc776af52494144fcef6641a73850cee628a"
 SRCREV_FORMAT ?= "rkbin_tools"
 

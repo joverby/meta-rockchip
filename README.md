@@ -12,11 +12,11 @@ Please see the corresponding sections below for details.
 This layer depends on:
 
 * URI: git://git.yoctoproject.org/poky
-* branch: kirkstone
+* branch: scarthgap
 
 * URI: git://git.openembedded.org/meta-openembedded
 * layers: meta-oe
-* branch: kirkstone
+* branch: scarthgap
 
 ## Table of Contents
 
@@ -36,8 +36,8 @@ In order to build an image with BSP support for a given release, you need to dow
 
 ```shell
 ~ $ mkdir yocto; cd yocto
-~/yocto $ git clone git://git.yoctoproject.org/poky -b kirkstone
-~/yocto $ git clone git://git.openembedded.org/meta-openembedded.git -b kirkstone
+~/yocto $ git clone git://git.yoctoproject.org/poky -b scarthgap
+~/yocto $ git clone git://git.openembedded.org/meta-openembedded.git -b scarthgap
 ```
 
 And put the meta-rockchip layer here too.
@@ -72,7 +72,11 @@ All supported machines can be found in meta-rockchip/conf/machine.
 
 ### II. Building meta-rockchip BSP Layers
 
-You should then be able to build a image as such:
+You should then be able to build a image with "rockchip-image" enabled in the local.conf file:
+
+```makefile
+INHERIT:append = " rockchip-image"
+```
 
 ```shell
 $ bitbake core-image-minimal
@@ -134,7 +138,7 @@ For example:
 KBUILD_DEFCONFIG = "rk3326_linux_defconfig"
 KERNEL_DEVICETREE = "rockchip/rk3326-evb-lp3-v10-linux.dtb"
 UBOOT_MACHINE = "evb-rk3326_defconfig"
-RK_WIFIBT_FIRMWARES = " \
+RK_WIFIBT_RRECOMMENDS = " \
         rkwifibt-firmware-ap6212a1-wifi \
         rkwifibt-firmware-ap6212a1-bt \
         brcm-tools \
@@ -147,6 +151,9 @@ For example using the kernel/ and u-boot/ in the same directory of meta-rockchip
 
 ```makefile
 # build/conf/local.conf
+PREFERRED_VERSION_linux-rockchip := "6.1%"
+LINUXLIBCVERSION := "6.1-custom%"
+
 SRC_URI:pn-linux-rockchip = " \
         git://${TOPDIR}/../kernel;protocol=file;usehead=1 \
         file://cgroups.cfg \
@@ -154,10 +161,17 @@ SRC_URI:pn-linux-rockchip = " \
 SRCREV:pn-linux-rockchip = "${AUTOREV}"
 KBRANCH = "HEAD"
 
-SRC_URI:pn-u-boot = " \
-        git://${TOPDIR}/../u-boot;protocol=file;usehead=1 \
+SRC_URI:pn-linux-libc-headers = " \
+        git://${TOPDIR}/../kernel;protocol=file;usehead=1 \
 "
-SRCREV:pn-u-boot = "${AUTOREV}"
+SRCREV:pn-linux-libc-headers = "${AUTOREV}"
+
+SRC_URI:pn-u-boot-rockchip = " \
+        git://${TOPDIR}/../u-boot;protocol=file;usehead=1 \
+        git://${TOPDIR}/../rkbin;protocol=file;usehead=1;name=rkbin;branch=HEAD;destsuffix=rkbin \
+"
+SRCREV:pn-u-boot-rockchip = "${AUTOREV}"
+SRCREV_rkbin:pn-u-boot-rockchip = "${AUTOREV}"
 ```
 
 ## Maintainers
